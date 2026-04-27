@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" role="img" aria-label="SideMemo">
+  <defs>
+    <clipPath id="paperClipSm">
+      <rect x="2.5" y="2.5" width="11" height="11" rx="1.5"/>
+    </clipPath>
+  </defs>
+  <rect width="16" height="16" rx="3" fill="#7F77DD"/>
+  <rect x="2.5" y="2.5" width="11" height="11" rx="1.5" fill="#FFFFFF"/>
+  <g clip-path="url(#paperClipSm)">
+    <rect x="11" y="2.5" width="2.5" height="11" fill="#1D9E75"/>
+  </g>
+  <rect x="4" y="5.5" width="5.5" height="1.4" rx="0.6" fill="#7F77DD"/>
+  <rect x="4" y="8" width="5" height="1" rx="0.4" fill="#CFCAEA"/>
+  <rect x="4" y="10" width="5.5" height="1" rx="0.4" fill="#CFCAEA"/>
+</svg>
