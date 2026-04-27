@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "pack": "node scripts/pack.mjs",
+    "release": "npm run build && npm run pack"
   },
   "dependencies": {
     "@milkdown/core": "^7.20.0",
@@ -27,6 +29,7 @@
   "devDependencies": {
     "@crxjs/vite-plugin": "^2.4.0",
     "@eslint/js": "^10.0.1",
+    "@types/archiver": "^7.0.0",
     "@types/chrome": "^0.1.40",
     "@types/dompurify": "^3.0.5",
     "@types/node": "^24.12.2",
@@ -34,6 +37,7 @@
     "@types/react-dom": "^19.2.3",
     "@types/uuid": "^10.0.0",
     "@vitejs/plugin-react": "^6.0.1",
+    "archiver": "^7.0.1",
     "eslint": "^10.2.1",
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.2",

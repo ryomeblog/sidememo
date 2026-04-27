@@ -172,6 +172,9 @@ textarea:focus-visible,
 }
 
 .sidememo-button--primary:hover {
+  background-color: var(--sm-accent);
+  border-color: var(--sm-accent);
+  color: #ffffff;
   filter: brightness(1.05);
 }
 
@@ -179,6 +182,13 @@ textarea:focus-visible,
   background-color: var(--sm-danger);
   border-color: var(--sm-danger);
   color: #ffffff;
+}
+
+.sidememo-button--danger:hover {
+  background-color: var(--sm-danger);
+  border-color: var(--sm-danger);
+  color: #ffffff;
+  filter: brightness(1.05);
 }
 
 .sidememo-icon-button {
