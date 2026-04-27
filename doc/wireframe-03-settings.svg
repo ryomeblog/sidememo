@@ -1,0 +1,160 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 760" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <title>SideMemo - 設定画面ワイヤーフレーム</title>
+  <desc>外観（レイアウトモード/テーマ/フォントサイズ/ツールバー表示）、タグ管理、データI/O、ショートカットのセクション。</desc>
+
+  <!-- 背景 -->
+  <rect width="720" height="760" fill="#F1EFE8"/>
+
+  <!-- 画面タイトル -->
+  <text x="360" y="28" font-size="13" fill="#5F5E5A" text-anchor="middle">画面3: 設定画面（外観・タグ管理・データ・ショートカット）</text>
+
+  <!-- パネル本体 -->
+  <g transform="translate(100, 50)">
+    <rect width="520" height="690" fill="#FFFFFF" stroke="#B4B2A9" stroke-width="0.5" rx="8"/>
+
+    <!-- ヘッダー -->
+    <g>
+      <rect width="520" height="40" fill="#FFFFFF"/>
+      <line x1="0" y1="40" x2="520" y2="40" stroke="#D3D1C7" stroke-width="0.5"/>
+      <rect x="12" y="8" width="60" height="24" fill="#FFFFFF" stroke="#B4B2A9" stroke-width="0.5" rx="6"/>
+      <text x="42" y="24" font-size="12" text-anchor="middle">← 戻る</text>
+      <text x="84" y="24" font-size="14" font-weight="500">設定</text>
+    </g>
+
+    <!-- セクション: 外観 -->
+    <g transform="translate(20, 56)">
+      <text x="0" y="12" font-size="11" font-weight="500" fill="#5F5E5A" letter-spacing="0.5">外観</text>
+
+      <!-- レイアウトモード -->
+      <g transform="translate(0, 24)">
+        <text x="0" y="12" font-size="13" fill="#2C2C2A">レイアウトモード</text>
+
+        <!-- 自動 (選択中) -->
+        <g transform="translate(0, 22)">
+          <rect width="152" height="98" fill="#FFFFFF" stroke="#185FA5" stroke-width="2" rx="6"/>
+          <!-- サムネイル: 2ペイン -->
+          <rect x="8" y="8" width="136" height="56" fill="#F1EFE8" rx="3"/>
+          <rect x="14" y="14" width="124" height="6" fill="#D3D1C7" rx="1"/>
+          <rect x="14" y="24" width="36" height="34" fill="#D3D1C7" rx="1"/>
+          <rect x="54" y="24" width="84" height="34" fill="#FFFFFF" stroke="#D3D1C7" stroke-width="0.5" rx="1"/>
+          <text x="76" y="80" font-size="12" font-weight="500" text-anchor="middle">自動</text>
+          <text x="76" y="92" font-size="10" fill="#888780" text-anchor="middle">幅で切替</text>
+        </g>
+
+        <!-- 常時2ペイン -->
+        <g transform="translate(160, 22)">
+          <rect width="152" height="98" fill="#FFFFFF" stroke="#D3D1C7" stroke-width="0.5" rx="6"/>
+          <rect x="8" y="8" width="136" height="56" fill="#F1EFE8" rx="3"/>
+          <rect x="14" y="14" width="124" height="6" fill="#D3D1C7" rx="1"/>
+          <rect x="14" y="24" width="42" height="34" fill="#D3D1C7" rx="1"/>
+          <rect x="60" y="24" width="78" height="34" fill="#FFFFFF" stroke="#D3D1C7" stroke-width="0.5" rx="1"/>
+          <text x="76" y="80" font-size="12" font-weight="500" text-anchor="middle">常時2ペイン</text>
+          <text x="76" y="92" font-size="10" fill="#888780" text-anchor="middle">並列表示</text>
+        </g>
+
+        <!-- 常時1ペイン -->
+        <g transform="translate(320, 22)">
+          <rect width="152" height="98" fill="#FFFFFF" stroke="#D3D1C7" stroke-width="0.5" rx="6"/>
+          <rect x="8" y="8" width="136" height="56" fill="#F1EFE8" rx="3"/>
+          <rect x="14" y="14" width="124" height="6" fill="#D3D1C7" rx="1"/>
+          <rect x="14" y="24" width="124" height="8" fill="#D3D1C7" rx="1"/>
+          <rect x="14" y="36" width="124" height="22" fill="#FFFFFF" stroke="#D3D1C7" stroke-width="0.5" rx="1"/>
+          <text x="76" y="80" font-size="12" font-weight="500" text-anchor="middle">常時1ペイン</text>
+          <text x="76" y="92" font-size="10" fill="#888780" text-anchor="middle">タブ切替</text>
+        </g>
+
+        <!-- 説明 -->
+        <text x="0" y="138" font-size="10" fill="#888780">自動: 400px 以上で2ペイン、未満で1ペインに自動切替</text>
+        <text x="0" y="152" font-size="10" fill="#888780">常時2ペイン: 常に並列表示。常時1ペイン: 常にタブ切替</text>
+      </g>
+
+      <!-- 区切り -->
+      <line x1="0" y1="184" x2="480" y2="184" stroke="#D3D1C7" stroke-width="0.5"/>
+
+      <!-- テーマ -->
+      <g transform="translate(0, 184)">
+        <text x="0" y="20" font-size="13" fill="#2C2C2A">テーマ</text>
+        <rect x="400" y="8" width="80" height="22" fill="#FFFFFF" stroke="#B4B2A9" stroke-width="0.5" rx="4"/>
+        <text x="408" y="22" font-size="11" fill="#2C2C2A">自動 ▾</text>
+      </g>
+      <line x1="0" y1="220" x2="480" y2="220" stroke="#D3D1C7" stroke-width="0.5"/>
+
+      <!-- フォントサイズ -->
+      <g transform="translate(0, 220)">
+        <text x="0" y="20" font-size="13" fill="#2C2C2A">フォントサイズ</text>
+        <rect x="400" y="8" width="80" height="22" fill="#FFFFFF" stroke="#B4B2A9" stroke-width="0.5" rx="4"/>
+        <text x="408" y="22" font-size="11" fill="#2C2C2A">14px ▾</text>
+      </g>
+      <line x1="0" y1="256" x2="480" y2="256" stroke="#D3D1C7" stroke-width="0.5"/>
+
+      <!-- ツールバー表示 -->
+      <g transform="translate(0, 256)">
+        <text x="0" y="20" font-size="13" fill="#2C2C2A">ツールバー表示</text>
+        <rect x="400" y="8" width="80" height="22" fill="#FFFFFF" stroke="#B4B2A9" stroke-width="0.5" rx="4"/>
+        <text x="408" y="22" font-size="11" fill="#2C2C2A">常時 ▾</text>
+      </g>
+      <line x1="0" y1="292" x2="480" y2="292" stroke="#D3D1C7" stroke-width="0.5"/>
+
+      <!-- 自動保存 -->
+      <g transform="translate(0, 292)">
+        <text x="0" y="20" font-size="13" fill="#2C2C2A">自動保存 debounce</text>
+        <rect x="400" y="8" width="80" height="22" fill="#FFFFFF" stroke="#B4B2A9" stroke-width="0.5" rx="4"/>
+        <text x="408" y="22" font-size="11" fill="#2C2C2A">500ms ▾</text>
+      </g>
+    </g>
+
+    <!-- セクション: タグ管理 -->
+    <g transform="translate(20, 388)">
+      <text x="0" y="12" font-size="11" font-weight="500" fill="#5F5E5A" letter-spacing="0.5">タグ管理</text>
+
+      <g transform="translate(0, 22)">
+        <rect width="480" height="32" fill="#FFFFFF" stroke="#D3D1C7" stroke-width="0.5" rx="4"/>
+        <circle cx="14" cy="16" r="5" fill="#7F77DD"/>
+        <text x="26" y="20" font-size="13" fill="#2C2C2A">Inbox</text>
+        <text x="430" y="20" font-size="11" fill="#888780">編集</text>
+        <text x="464" y="20" font-size="11" fill="#A32D2D">削除</text>
+      </g>
+      <g transform="translate(0, 60)">
+        <rect width="480" height="32" fill="#FFFFFF" stroke="#D3D1C7" stroke-width="0.5" rx="4"/>
+        <circle cx="14" cy="16" r="5" fill="#1D9E75"/>
+        <text x="26" y="20" font-size="13" fill="#2C2C2A">Idea</text>
+        <text x="430" y="20" font-size="11" fill="#888780">編集</text>
+        <text x="464" y="20" font-size="11" fill="#A32D2D">削除</text>
+      </g>
+      <g transform="translate(0, 98)">
+        <rect width="480" height="32" fill="#FFFFFF" stroke="#D3D1C7" stroke-width="0.5" rx="4"/>
+        <circle cx="14" cy="16" r="5" fill="#D85A30"/>
+        <text x="26" y="20" font-size="13" fill="#2C2C2A">Work</text>
+        <text x="430" y="20" font-size="11" fill="#888780">編集</text>
+        <text x="464" y="20" font-size="11" fill="#A32D2D">削除</text>
+      </g>
+      <g transform="translate(0, 138)">
+        <rect width="480" height="28" fill="#FFFFFF" stroke="#B4B2A9" stroke-width="0.5" rx="4"/>
+        <text x="240" y="18" font-size="12" fill="#2C2C2A" text-anchor="middle">+ 新しいタグ</text>
+      </g>
+    </g>
+
+    <!-- セクション: データ -->
+    <g transform="translate(20, 568)">
+      <text x="0" y="12" font-size="11" font-weight="500" fill="#5F5E5A" letter-spacing="0.5">データ</text>
+
+      <!-- ボタン2つ -->
+      <g transform="translate(0, 22)">
+        <rect width="232" height="32" fill="#FFFFFF" stroke="#B4B2A9" stroke-width="0.5" rx="4"/>
+        <text x="116" y="20" font-size="12" text-anchor="middle">📤 エクスポート (JSON)</text>
+        <rect x="248" y="0" width="232" height="32" fill="#FFFFFF" stroke="#B4B2A9" stroke-width="0.5" rx="4"/>
+        <text x="364" y="20" font-size="12" text-anchor="middle">📥 インポート</text>
+      </g>
+
+      <!-- 容量表示 -->
+      <g transform="translate(0, 64)">
+        <rect width="480" height="42" fill="#F1EFE8" rx="6"/>
+        <text x="12" y="18" font-size="11" fill="#5F5E5A">使用容量</text>
+        <text x="468" y="18" font-size="12" font-weight="500" text-anchor="end" fill="#2C2C2A">2.4 MB</text>
+        <rect x="12" y="24" width="456" height="4" fill="#FFFFFF" rx="2"/>
+        <rect x="12" y="24" width="22" height="4" fill="#185FA5" rx="2"/>
+        <text x="12" y="38" font-size="10" fill="#0F6E56">✓ 永続化: 有効</text>
+      </g>
+    </g>
+  </g>
+</svg>

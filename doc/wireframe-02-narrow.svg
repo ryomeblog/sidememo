@@ -1,0 +1,189 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 620" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <title>SideMemo - 1ペイン表示ワイヤーフレーム（タブ切替式）</title>
+  <desc>狭幅時のフォールバックレイアウト。一覧モードとエディタモードをタブで切替。</desc>
+
+  <!-- 背景 -->
+  <rect width="800" height="620" fill="#F1EFE8"/>
+
+  <!-- 画面タイトル -->
+  <text x="400" y="28" font-size="13" fill="#5F5E5A" text-anchor="middle">画面2: 1ペイン表示（タブ切替式 / 幅 &lt; 400px または「常時1ペイン」設定時）</text>
+
+  <!-- 左: 一覧モード -->
+  <g transform="translate(60, 60)">
+    <text x="170" y="-10" font-size="11" fill="#888780" text-anchor="middle">一覧モード</text>
+
+    <rect width="340" height="540" fill="#FFFFFF" stroke="#B4B2A9" stroke-width="0.5" rx="8"/>
+
+    <!-- ヘッダー -->
+    <g>
+      <rect width="340" height="36" fill="#FFFFFF"/>
+      <line x1="0" y1="36" x2="340" y2="36" stroke="#D3D1C7" stroke-width="0.5"/>
+      <rect x="10" y="6" width="240" height="24" fill="#F1EFE8" rx="6"/>
+      <circle cx="22" cy="18" r="4" fill="none" stroke="#888780" stroke-width="1.5"/>
+      <line x1="25" y1="21" x2="28" y2="24" stroke="#888780" stroke-width="1.5"/>
+      <text x="34" y="22" font-size="12" fill="#888780">検索...</text>
+      <rect x="258" y="6" width="32" height="24" fill="#FFFFFF" stroke="#B4B2A9" stroke-width="0.5" rx="6"/>
+      <text x="274" y="22" font-size="13" text-anchor="middle">+</text>
+      <rect x="296" y="6" width="34" height="24" fill="#FFFFFF" stroke="#B4B2A9" stroke-width="0.5" rx="6"/>
+      <text x="313" y="22" font-size="13" text-anchor="middle">⚙</text>
+    </g>
+
+    <!-- タブ切替 -->
+    <g transform="translate(0, 36)">
+      <rect width="340" height="32" fill="#FFFFFF"/>
+      <line x1="0" y1="32" x2="340" y2="32" stroke="#D3D1C7" stroke-width="0.5"/>
+      <text x="85" y="20" font-size="13" font-weight="500" fill="#185FA5" text-anchor="middle">一覧</text>
+      <line x1="20" y1="30" x2="150" y2="30" stroke="#185FA5" stroke-width="2"/>
+      <text x="255" y="20" font-size="13" fill="#5F5E5A" text-anchor="middle">エディタ</text>
+    </g>
+
+    <!-- タグフィルタ -->
+    <g transform="translate(0, 68)">
+      <rect width="340" height="30" fill="#FFFFFF"/>
+      <line x1="0" y1="30" x2="340" y2="30" stroke="#D3D1C7" stroke-width="0.5"/>
+      <rect x="10" y="6" width="50" height="18" fill="#EEEDFE" rx="9"/>
+      <text x="35" y="18" font-size="11" fill="#3C3489" text-anchor="middle">Inbox</text>
+      <rect x="64" y="6" width="42" height="18" fill="#F1EFE8" rx="9"/>
+      <text x="85" y="18" font-size="11" fill="#5F5E5A" text-anchor="middle">Idea</text>
+      <rect x="110" y="6" width="44" height="18" fill="#F1EFE8" rx="9"/>
+      <text x="132" y="18" font-size="11" fill="#5F5E5A" text-anchor="middle">Work</text>
+    </g>
+
+    <!-- メモ一覧 -->
+    <g transform="translate(0, 98)">
+      <!-- 選択中: ピン留め -->
+      <rect x="0" y="0" width="340" height="58" fill="#E6F1FB"/>
+      <line x1="0" y1="58" x2="340" y2="58" stroke="#D3D1C7" stroke-width="0.5"/>
+      <text x="12" y="20" font-size="11">📌</text>
+      <text x="28" y="20" font-size="13" font-weight="500" fill="#2C2C2A">設計メモ</text>
+      <text x="12" y="36" font-size="11" fill="#5F5E5A">IndexedDB を使った...</text>
+      <text x="12" y="50" font-size="10" fill="#888780">4/27 14:32</text>
+
+      <!-- メモ2 -->
+      <rect x="0" y="58" width="340" height="58" fill="#FFFFFF"/>
+      <line x1="0" y1="116" x2="340" y2="116" stroke="#D3D1C7" stroke-width="0.5"/>
+      <text x="12" y="78" font-size="13" font-weight="500" fill="#2C2C2A">ようこそ SideMemo</text>
+      <text x="12" y="94" font-size="11" fill="#5F5E5A">使い方の説明...</text>
+      <text x="12" y="108" font-size="10" fill="#888780">4/27 12:00</text>
+
+      <!-- メモ3 -->
+      <rect x="0" y="116" width="340" height="58" fill="#FFFFFF"/>
+      <line x1="0" y1="174" x2="340" y2="174" stroke="#D3D1C7" stroke-width="0.5"/>
+      <text x="12" y="136" font-size="13" font-weight="500" fill="#2C2C2A">買い物リスト</text>
+      <text x="12" y="152" font-size="11" fill="#5F5E5A">- 牛乳 - パン...</text>
+      <text x="12" y="166" font-size="10" fill="#888780">4/26 09:15</text>
+
+      <!-- メモ4: 無題 -->
+      <rect x="0" y="174" width="340" height="58" fill="#FFFFFF"/>
+      <text x="12" y="194" font-size="13" fill="#888780">無題</text>
+      <text x="12" y="210" font-size="11" fill="#888780">(空)</text>
+      <text x="12" y="224" font-size="10" fill="#888780">4/25 18:00</text>
+    </g>
+  </g>
+
+  <!-- 右: エディタモード -->
+  <g transform="translate(420, 60)">
+    <text x="170" y="-10" font-size="11" fill="#888780" text-anchor="middle">エディタモード</text>
+
+    <rect width="340" height="540" fill="#FFFFFF" stroke="#B4B2A9" stroke-width="0.5" rx="8"/>
+
+    <!-- ヘッダー: 戻るボタン + ピン/削除 -->
+    <g>
+      <rect width="340" height="36" fill="#FFFFFF"/>
+      <line x1="0" y1="36" x2="340" y2="36" stroke="#D3D1C7" stroke-width="0.5"/>
+      <rect x="10" y="6" width="60" height="24" fill="#FFFFFF" stroke="#B4B2A9" stroke-width="0.5" rx="6"/>
+      <text x="40" y="22" font-size="12" text-anchor="middle">← 戻る</text>
+      <text x="290" y="22" font-size="13">📌</text>
+      <text x="312" y="22" font-size="13">🗑</text>
+    </g>
+
+    <!-- タブ切替 -->
+    <g transform="translate(0, 36)">
+      <rect width="340" height="32" fill="#FFFFFF"/>
+      <line x1="0" y1="32" x2="340" y2="32" stroke="#D3D1C7" stroke-width="0.5"/>
+      <text x="85" y="20" font-size="13" fill="#5F5E5A" text-anchor="middle">一覧</text>
+      <text x="255" y="20" font-size="13" font-weight="500" fill="#185FA5" text-anchor="middle">エディタ</text>
+      <line x1="190" y1="30" x2="320" y2="30" stroke="#185FA5" stroke-width="2"/>
+    </g>
+
+    <!-- メタ情報バー -->
+    <g transform="translate(0, 68)">
+      <rect width="340" height="28" fill="#FFFFFF"/>
+      <line x1="0" y1="28" x2="340" y2="28" stroke="#D3D1C7" stroke-width="0.5"/>
+      <rect x="10" y="5" width="44" height="18" fill="#EEEDFE" rx="9"/>
+      <text x="32" y="17" font-size="11" fill="#3C3489" text-anchor="middle">Inbox</text>
+      <text x="60" y="19" font-size="12" fill="#888780">+</text>
+    </g>
+
+    <!-- ページ参照バー -->
+    <g transform="translate(0, 96)">
+      <rect width="340" height="26" fill="#F1EFE8"/>
+      <line x1="0" y1="26" x2="340" y2="26" stroke="#D3D1C7" stroke-width="0.5"/>
+      <g transform="translate(10, 8)" stroke="#5F5E5A" stroke-width="1.2" fill="none">
+        <path d="M2,5 a3,3 0 0 0 4,3 l2,-2 a3,3 0 0 0 -4,-3 l-1,1"/>
+        <path d="M7,4 a3,3 0 0 0 -4,-3 l-2,2 a3,3 0 0 0 4,3 l1,-1"/>
+      </g>
+      <text x="26" y="18" font-size="11" fill="#5F5E5A">SideMemo 設計書</text>
+      <text x="330" y="18" font-size="10" fill="#185FA5" text-anchor="end">+ ページ添付</text>
+    </g>
+
+    <!-- ツールバー (横スクロール対応) -->
+    <g transform="translate(0, 122)">
+      <rect width="340" height="32" fill="#F1EFE8"/>
+      <line x1="0" y1="32" x2="340" y2="32" stroke="#D3D1C7" stroke-width="0.5"/>
+
+      <rect x="6" y="6" width="26" height="20" fill="#FFFFFF" stroke="#B4B2A9" stroke-width="0.3" rx="3"/>
+      <text x="19" y="20" font-size="11" font-weight="500" text-anchor="middle">H1</text>
+      <rect x="34" y="6" width="26" height="20" fill="#FFFFFF" stroke="#B4B2A9" stroke-width="0.3" rx="3"/>
+      <text x="47" y="20" font-size="10" font-weight="500" text-anchor="middle">H2</text>
+
+      <line x1="66" y1="9" x2="66" y2="23" stroke="#D3D1C7" stroke-width="0.5"/>
+
+      <rect x="72" y="6" width="22" height="20" fill="#FFFFFF" stroke="#B4B2A9" stroke-width="0.3" rx="3"/>
+      <text x="83" y="20" font-size="11" font-weight="500" text-anchor="middle">B</text>
+      <rect x="96" y="6" width="22" height="20" fill="#FFFFFF" stroke="#B4B2A9" stroke-width="0.3" rx="3"/>
+      <text x="107" y="20" font-size="11" font-style="italic" text-anchor="middle">I</text>
+
+      <line x1="124" y1="9" x2="124" y2="23" stroke="#D3D1C7" stroke-width="0.5"/>
+
+      <rect x="130" y="6" width="22" height="20" fill="#FFFFFF" stroke="#B4B2A9" stroke-width="0.3" rx="3"/>
+      <text x="141" y="21" font-size="13" text-anchor="middle">•</text>
+      <rect x="154" y="6" width="22" height="20" fill="#FFFFFF" stroke="#B4B2A9" stroke-width="0.3" rx="3"/>
+      <text x="165" y="20" font-size="11" text-anchor="middle">☐</text>
+
+      <line x1="182" y1="9" x2="182" y2="23" stroke="#D3D1C7" stroke-width="0.5"/>
+
+      <rect x="188" y="6" width="22" height="20" fill="#FFFFFF" stroke="#B4B2A9" stroke-width="0.3" rx="3"/>
+      <text x="199" y="20" font-size="11" text-anchor="middle">🔗</text>
+      <rect x="212" y="6" width="22" height="20" fill="#FFFFFF" stroke="#B4B2A9" stroke-width="0.3" rx="3"/>
+      <text x="223" y="20" font-size="9" font-family="monospace" text-anchor="middle">&lt;/&gt;</text>
+
+      <!-- 横スクロールフェード -->
+      <rect x="320" y="0" width="20" height="32" fill="url(#fade)"/>
+      <text x="324" y="20" font-size="10" fill="#B4B2A9">→</text>
+    </g>
+
+    <!-- 本文エディタ -->
+    <g transform="translate(0, 154)">
+      <rect width="340" height="384" fill="#FFFFFF"/>
+      <text x="16" y="28" font-size="18" font-weight="500" fill="#2C2C2A">設計メモ</text>
+      <text x="16" y="58" font-size="13" fill="#2C2C2A">IndexedDB を使った</text>
+      <text x="16" y="78" font-size="13" font-weight="500" fill="#2C2C2A">ローカル完結型</text>
+      <text x="16" y="98" font-size="13" fill="#2C2C2A">のメモアプリ。</text>
+      <text x="16" y="124" font-size="13" fill="#888780">-</text>
+      <text x="28" y="124" font-size="13" fill="#2C2C2A">Dexie.js</text>
+      <text x="16" y="144" font-size="13" fill="#888780">-</text>
+      <text x="28" y="144" font-size="13" fill="#2C2C2A">React</text>
+      <text x="16" y="164" font-size="13" fill="#888780">-</text>
+      <text x="28" y="164" font-size="13" fill="#2C2C2A">Tailwind</text>
+      <line x1="76" y1="153" x2="76" y2="167" stroke="#185FA5" stroke-width="1.5"/>
+    </g>
+  </g>
+
+  <defs>
+    <linearGradient id="fade" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#F1EFE8" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#F1EFE8" stop-opacity="1"/>
+    </linearGradient>
+  </defs>
+</svg>
