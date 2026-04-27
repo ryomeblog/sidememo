@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(magick -version)",
+      "Bash(inkscape --version)",
+      "Bash(npm install *)",
+      "Bash(node _build-icons.mjs)"
+    ]
+  }
+}
