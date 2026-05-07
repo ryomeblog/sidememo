@@ -3,6 +3,7 @@
 ブラウザ右側のサイドパネルで動作する、Markdown 対応のメモ取り Chrome / Edge 拡張機能。データはすべて IndexedDB にローカル保存され、外部送信は一切行いません。
 
 **Chrome ウェブストアで公開中:**
+
 https://chromewebstore.google.com/detail/sidememo/kiapfojfgefpllfmhomandpbiohmkimk?authuser=0&hl=ja
 
 ## 特長
