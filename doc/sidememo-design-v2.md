@@ -5,7 +5,7 @@
 | 項目 | 内容 |
 |------|------|
 | プロダクト名 | SideMemo（仮称） |
-| バージョン | 0.1.0 |
+| バージョン | 0.1.1 |
 | 対象ブラウザ | Chrome / Edge（Chromium系、v114以降） |
 | 拡張規格 | Manifest V3 |
 | データ保存 | IndexedDB（ローカルのみ、外部送信なし） |
@@ -541,7 +541,7 @@ sidememo/
 {
   "manifest_version": 3,
   "name": "SideMemo",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Markdown対応のサイドパネル型メモ拡張機能",
   "permissions": [
     "sidePanel",
