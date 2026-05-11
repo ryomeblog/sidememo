@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import { Crepe } from "@milkdown/crepe";
+import { editorViewCtx, schemaCtx, serializerCtx } from "@milkdown/core";
 import "@milkdown/crepe/theme/common/style.css";
 import "@milkdown/crepe/theme/frame.css";
 
@@ -43,6 +44,30 @@ export function MilkdownEditor(props: MilkdownEditorProps) {
           void crepe.destroy();
           return;
         }
+        // クリップボードへ書き出す text/plain を上書きする。
+        // Milkdown / CommonMark プリセットは空段落を round-trip するため
+        // markdown シリアライズ時に `<br />` を埋め込む（preset-commonmark の
+        // paragraph.toMarkdown 参照）。既定の clipboardTextSerializer はその
+        // markdown をそのままクリップボードに載せるため、外部アプリへ貼り付け
+        // ると `<br />` が文字列として現れてしまう。シリアライズ後に `<br />`
+        // を取り除き、末尾の余分な改行も整える。
+        crepe.editor.action((ctx) => {
+          const view = ctx.get(editorViewCtx);
+          const schema = ctx.get(schemaCtx);
+          const serializer = ctx.get(serializerCtx);
+          view.setProps({
+            clipboardTextSerializer: (slice) => {
+              const doc = schema.topNodeType.createAndFill(
+                undefined,
+                slice.content,
+              );
+              if (!doc) return "";
+              return serializer(doc)
+                .replace(/<br\s*\/?>/g, "")
+                .replace(/\n+$/, "");
+            },
+          });
+        });
         crepe.on((listener) => {
           listener.markdownUpdated((_ctx, markdown) => {
             onChangeRef.current(markdown);
