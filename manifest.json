@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "SideMemo",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Markdown対応のサイドパネル型メモ拡張機能",
   "permissions": [
     "sidePanel",

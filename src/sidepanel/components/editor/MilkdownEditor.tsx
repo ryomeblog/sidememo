@@ -47,10 +47,14 @@ export function MilkdownEditor(props: MilkdownEditorProps) {
         // クリップボードへ書き出す text/plain を上書きする。
         // Milkdown / CommonMark プリセットは空段落を round-trip するため
         // markdown シリアライズ時に `<br />` を埋め込む（preset-commonmark の
-        // paragraph.toMarkdown 参照）。既定の clipboardTextSerializer はその
-        // markdown をそのままクリップボードに載せるため、外部アプリへ貼り付け
-        // ると `<br />` が文字列として現れてしまう。シリアライズ後に `<br />`
-        // を取り除き、末尾の余分な改行も整える。
+        // paragraph.toMarkdown 参照）。また `mdast-util-to-markdown` は行頭の
+        // `=` `#` `-` `>` などを setext / atx 見出しやリストと誤認されないよう
+        // `\` を付けて出力する（unsafe.js 参照）。既定の clipboardTextSerializer
+        // はその markdown をそのままクリップボードに載せるため、外部アプリへ
+        // 貼り付けると `<br />` や `\=====` が文字列として現れてしまう。
+        // CommonMark の backslash-escape ルール（`\` の直後の ASCII 約物は
+        // literal 文字）に従って unescape し、`<br />` を取り除き、末尾の
+        // 余分な改行も整える。
         crepe.editor.action((ctx) => {
           const view = ctx.get(editorViewCtx);
           const schema = ctx.get(schemaCtx);
@@ -63,6 +67,7 @@ export function MilkdownEditor(props: MilkdownEditorProps) {
               );
               if (!doc) return "";
               return serializer(doc)
+                .replace(/\\([!-/:-@[-`{-~])/g, "$1")
                 .replace(/<br\s*\/?>/g, "")
                 .replace(/\n+$/, "");
             },
