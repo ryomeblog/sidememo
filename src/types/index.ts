@@ -42,6 +42,9 @@ export interface NoteRevision {
 export type LayoutMode = "auto" | "two-pane" | "one-pane";
 export type ThemeMode = "auto" | "light" | "dark";
 export type ToolbarVisibility = "always" | "auto-hide" | "hidden";
+// エディタの入力方式。plain はリアルタイム整形を行わず、素のテキストとして保存する。
+export type EditorMode = "markdown" | "plain";
+export type DownloadFormat = "md" | "txt";
 
 export interface SettingValues {
   layoutMode: LayoutMode;
@@ -49,6 +52,7 @@ export interface SettingValues {
   fontSize: 12 | 13 | 14 | 16 | 18;
   toolbarVisibility: ToolbarVisibility;
   autosaveDebounceMs: 250 | 500 | 1000;
+  editorMode: EditorMode;
 }
 
 export const DEFAULT_SETTINGS: SettingValues = {
@@ -57,4 +61,5 @@ export const DEFAULT_SETTINGS: SettingValues = {
   fontSize: 14,
   toolbarVisibility: "always",
   autosaveDebounceMs: 500,
+  editorMode: "markdown",
 };

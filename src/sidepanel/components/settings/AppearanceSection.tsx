@@ -1,4 +1,5 @@
 import type {
+  EditorMode,
   SettingValues,
   ThemeMode,
   ToolbarVisibility,
@@ -24,6 +25,11 @@ const TOOLBAR_VIS: Array<{ value: ToolbarVisibility; label: string }> = [
 ];
 
 const DEBOUNCE: SettingValues["autosaveDebounceMs"][] = [250, 500, 1000];
+
+const EDITOR_MODES: Array<{ value: EditorMode; label: string }> = [
+  { value: "markdown", label: "Markdown (リアルタイム整形)" },
+  { value: "plain", label: "テキストのみ (整形しない)" },
+];
 
 export function AppearanceSection(props: AppearanceSectionProps) {
   const { settings } = props;
@@ -64,6 +70,30 @@ export function AppearanceSection(props: AppearanceSectionProps) {
           ))}
         </select>
       </label>
+
+      <label className="sidememo-field">
+        <span className="sidememo-field__label">エディタの入力方式</span>
+        <select
+          value={settings.editorMode}
+          onChange={(e) => {
+            void settingsRepo.setSetting(
+              "editorMode",
+              e.target.value as EditorMode,
+            );
+          }}
+        >
+          {EDITOR_MODES.map((m) => (
+            <option key={m.value} value={m.value}>
+              {m.label}
+            </option>
+          ))}
+        </select>
+      </label>
+      <p className="sidememo-section__hint">
+        「テキストのみ」を選ぶと Markdown
+        のリアルタイム整形とシリアライズを通さず、入力した文字列がそのまま保存されます。
+        保存済みのメモは変換されないため、いつでも切り替えられます。
+      </p>
 
       <label className="sidememo-field">
         <span className="sidememo-field__label">ツールバー表示</span>

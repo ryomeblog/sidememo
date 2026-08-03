@@ -54,10 +54,12 @@ export interface UpdateNoteInput {
   pageRef?: PageRef;
 }
 
+// 戻り値: 実際に更新できたら true / 対象メモが既に存在しなければ false。
+// 削除済みメモへの遅延保存（ゾンビ書き込み）を呼び出し側が検知できるようにする。
 export async function updateNote(
   id: string,
   input: UpdateNoteInput,
-): Promise<void> {
+): Promise<boolean> {
   const patch: Partial<Note> = { updatedAt: Date.now() };
   if (input.content !== undefined) {
     patch.content = input.content;
@@ -66,7 +68,8 @@ export async function updateNote(
   if (input.tagIds !== undefined) patch.tagIds = input.tagIds;
   if (input.pinned !== undefined) patch.pinned = input.pinned;
   if (input.pageRef !== undefined) patch.pageRef = input.pageRef;
-  await db.notes.update(id, patch);
+  const updated = await db.notes.update(id, patch);
+  return updated > 0;
 }
 
 export async function togglePin(id: string): Promise<void> {
@@ -87,11 +90,20 @@ export async function detachPage(id: string): Promise<void> {
   await db.notes.update(id, { pageRef: undefined, updatedAt: Date.now() });
 }
 
-export async function deleteNote(id: string): Promise<void> {
-  await db.transaction("rw", db.notes, db.revisions, async () => {
+// 削除したメモ本体を返す。呼び出し側はこれを保持しておけば「元に戻す」が実装できる。
+export async function deleteNote(id: string): Promise<Note | undefined> {
+  return db.transaction("rw", db.notes, db.revisions, async () => {
+    const note = await db.notes.get(id);
+    if (!note) return undefined;
     await db.revisions.where("noteId").equals(id).delete();
     await db.notes.delete(id);
+    return note;
   });
+}
+
+// deleteNote が返したメモをそのまま書き戻す（削除の取り消し）。
+export async function restoreNote(note: Note): Promise<void> {
+  await db.notes.put(note);
 }
 
 export async function saveRevision(

@@ -22,6 +22,8 @@ function App() {
   const [selectedTagIds, setSelectedTagIds] = useState<string[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [pendingDelete, setPendingDelete] = useState<Note | null>(null);
+  // 直前に削除したメモ。一定時間だけ「元に戻す」を出す。
+  const [lastDeleted, setLastDeleted] = useState<Note | null>(null);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [activePane, setActivePane] = useState<Pane>("list");
 
@@ -88,12 +90,39 @@ function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedTagIds, layout, settingsOpen]);
 
+  // 「元に戻す」の自動消去
+  useEffect(() => {
+    if (!lastDeleted) return;
+    const timer = setTimeout(() => setLastDeleted(null), 10_000);
+    return () => clearTimeout(timer);
+  }, [lastDeleted]);
+
   const handleConfirmDelete = async () => {
     if (!pendingDelete) return;
-    const id = pendingDelete.id;
+    const target = pendingDelete;
     setPendingDelete(null);
-    await notesRepo.deleteNote(id);
+
+    // [修正] 削除する前に次の選択を確定させる。
+    // 以前は selectedId を放置し、useSearch と useNote という 2 つの
+    // useLiveQuery の反映タイミング差でフォールバック先が
+    // undefined → 隣のメモ、と揺れていた。その一瞬の再マウントが
+    // エディタの初期化と破棄の競合を誘発していた。
+    const list = notes ?? [];
+    const index = list.findIndex((n) => n.id === target.id);
+    const next = list[index + 1] ?? list[index - 1] ?? null;
+    setSelectedId(next ? next.id : null);
+
+    const removed = await notesRepo.deleteNote(target.id);
+    if (removed) setLastDeleted(removed);
     if (layout === "one-pane") setActivePane("list");
+  };
+
+  const handleUndoDelete = async () => {
+    if (!lastDeleted) return;
+    const restored = lastDeleted;
+    setLastDeleted(null);
+    await notesRepo.restoreNote(restored);
+    setSelectedId(restored.id);
   };
 
   const handleToggleTagFilter = (tagId: string) => {
@@ -146,6 +175,20 @@ function App() {
           onClear={() => setSelectedTagIds([])}
         />
       )}
+      {lastDeleted && (
+        <div className="sidememo-undo-bar" role="status">
+          <span className="sidememo-undo-bar__text">
+            「{lastDeleted.title || "無題"}」を削除しました
+          </span>
+          <button
+            type="button"
+            className="sidememo-button"
+            onClick={() => void handleUndoDelete()}
+          >
+            元に戻す
+          </button>
+        </div>
+      )}
       <div className="sidememo-app__body">
         {showList && (
           <aside className={sidebarClass}>
@@ -192,7 +235,7 @@ function App() {
         title="メモを削除しますか？"
         message={
           pendingDelete
-            ? `「${pendingDelete.title || "無題"}」を削除します。この操作は取り消せません。`
+            ? `「${pendingDelete.title || "無題"}」を削除します。削除後しばらくは「元に戻す」で復元できます。`
             : ""
         }
         confirmLabel="削除"
