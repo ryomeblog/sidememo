@@ -18,6 +18,9 @@ export interface Note {
   pageRef?: PageRef;
   createdAt: number;
   updatedAt: number;
+  // 論理削除の印。付いているメモは表示・検索・エクスポートから除外し、
+  // 次回のバックアップ時にバックアップからも消して DB から物理削除する。
+  deletedAt?: number;
 }
 
 export interface Tag {

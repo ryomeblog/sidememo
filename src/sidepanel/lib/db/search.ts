@@ -2,6 +2,8 @@ import Fuse from "fuse.js";
 import { db } from "./index";
 import type { Note } from "../../../types";
 
+const isLive = (note: Note) => note.deletedAt === undefined;
+
 // 設計書 §5.6 — IndexedDB のインデックスで候補を絞り込み、Fuse.js であいまい検索する。
 
 export interface SearchOptions {
@@ -13,13 +15,13 @@ export async function searchNotes(opts: SearchOptions): Promise<Note[]> {
   const tagIds = opts.tagIds ?? [];
   let candidates: Note[];
   if (tagIds.length === 0) {
-    candidates = await db.notes.toArray();
+    candidates = (await db.notes.toArray()).filter(isLive);
   } else {
     // OR 絞り込み: いずれかのタグを含むメモ
     const seen = new Set<string>();
     candidates = [];
     for (const tagId of tagIds) {
-      const notes = await db.notes.where("tagIds").equals(tagId).toArray();
+      const notes = (await db.notes.where("tagIds").equals(tagId).toArray()).filter(isLive);
       for (const n of notes) {
         if (!seen.has(n.id)) {
           seen.add(n.id);

@@ -1,6 +1,7 @@
 import { v4 as uuidv4 } from "uuid";
 import { db } from "./index";
 import type { Tag } from "../../../types";
+import { removeTagFromBackup } from "./snapshotRepo";
 
 export async function listTags(): Promise<Tag[]> {
   return db.tags.orderBy("createdAt").toArray();
@@ -38,4 +39,6 @@ export async function deleteTag(id: string): Promise<void> {
       await db.notes.update(note.id, { tagIds: next });
     }
   });
+  // タグは物理削除のため、バックアップからも即座に消す（復元で戻らないように）。
+  await removeTagFromBackup(id).catch(() => undefined);
 }

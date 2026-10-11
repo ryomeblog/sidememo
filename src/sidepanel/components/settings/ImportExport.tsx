@@ -6,6 +6,7 @@ import {
   type ExportPayload,
 } from "../../lib/db/backup";
 import { ConfirmDialog } from "../common/ConfirmDialog";
+import { discardLostNotes, runBackup } from "../../lib/db/snapshotRepo";
 
 type ImportMode = "merge" | "replace";
 
@@ -58,6 +59,9 @@ export function ImportExport() {
     setPendingPayload(null);
     try {
       const result = await importAll(payload, "replace");
+      // 置き換えは意図的な全入れ替えなので、ファイルに無いメモはバックアップからも外す。
+      await discardLostNotes();
+      await runBackup();
       setStatus(
         `置き換えインポート完了 (メモ ${result.importedNotes} 件 / タグ ${result.importedTags} 件)`,
       );

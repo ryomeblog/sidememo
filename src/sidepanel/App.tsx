@@ -178,9 +178,9 @@ function App() {
           onClear={() => setSelectedTagIds([])}
         />
       )}
-      {backup.recovery?.pending && backup.recovery.snapshot && (
+      {backup.lostCount > 0 && (
         <RecoveryBanner
-          snapshot={backup.recovery.snapshot}
+          lostCount={backup.lostCount}
           onDone={() => void backup.refresh()}
         />
       )}

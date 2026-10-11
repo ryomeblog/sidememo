@@ -18,7 +18,7 @@ export async function exportAll(): Promise<Blob> {
   const data: ExportPayload = {
     schemaVersion: 1,
     exportedAt: Date.now(),
-    notes: await db.notes.toArray(),
+    notes: (await db.notes.toArray()).filter((n) => n.deletedAt === undefined),
     tags: await db.tags.toArray(),
   };
   return new Blob([JSON.stringify(data, null, 2)], {
@@ -98,7 +98,9 @@ export async function mergeInto(
   }
 
   const localContents = new Set(
-    (await db.notes.toArray()).map((n) => n.content),
+    (await db.notes.toArray())
+      .filter((n) => n.deletedAt === undefined)
+      .map((n) => n.content),
   );
   let mergedNotes = 0;
   for (const note of data.notes) {
