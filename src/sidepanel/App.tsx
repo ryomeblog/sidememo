@@ -11,6 +11,8 @@ import { useSearch } from "./hooks/useSearch";
 import { useLayoutMode } from "./hooks/useLayoutMode";
 import { useSettings } from "./hooks/useSettings";
 import { useInsertionListener } from "./hooks/useInsertionListener";
+import { useSnapshotBackup } from "./hooks/useSnapshotBackup";
+import { RecoveryBanner } from "./components/RecoveryBanner";
 import * as notesRepo from "./lib/db/notesRepo";
 import { emitInsertText } from "./lib/insertionBus";
 import type { Note } from "../types";
@@ -29,6 +31,7 @@ function App() {
 
   const settings = useSettings();
   const layout = useLayoutMode();
+  const backup = useSnapshotBackup();
   const tags = useTags() ?? [];
   const notes = useSearch(searchQuery, selectedTagIds);
 
@@ -173,6 +176,12 @@ function App() {
           selectedTagIds={selectedTagIds}
           onToggle={handleToggleTagFilter}
           onClear={() => setSelectedTagIds([])}
+        />
+      )}
+      {backup.recovery?.pending && backup.recovery.snapshot && (
+        <RecoveryBanner
+          snapshot={backup.recovery.snapshot}
+          onDone={() => void backup.refresh()}
         />
       )}
       {lastDeleted && (

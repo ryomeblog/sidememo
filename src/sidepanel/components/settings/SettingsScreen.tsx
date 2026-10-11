@@ -4,6 +4,7 @@ import { LayoutModeSelector } from "./LayoutModeSelector";
 import { AppearanceSection } from "./AppearanceSection";
 import { ImportExport } from "./ImportExport";
 import { StorageInfo } from "./StorageInfo";
+import { RestoreSection } from "./RestoreSection";
 
 interface SettingsScreenProps {
   tags: Tag[];
@@ -31,6 +32,7 @@ export function SettingsScreen(props: SettingsScreenProps) {
         <AppearanceSection settings={settings} />
         <TagManager tags={tags} />
         <ImportExport />
+        <RestoreSection />
         <StorageInfo />
       </div>
     </div>

@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from "uuid";
 import { db } from "./index";
 import type { Note, Tag } from "../../../types";
 
@@ -60,6 +61,64 @@ export async function parseImportFile(file: File): Promise<ExportPayload> {
   return parsed;
 }
 
+export interface MergeOptions {
+  // 同じ ID のメモの扱い。
+  // "overwrite": 取り込み側で上書き / "newer": 更新日時が新しい方を残す
+  sameId: "overwrite" | "newer";
+  // 既存のメモと本文が同一のものは追加しない（初期化直後のウェルカムメモなど）
+  skipSameContent: boolean;
+}
+
+export interface MergeResult {
+  mergedNotes: number;
+  mergedTags: number;
+}
+
+// 既存データへ統合する。呼び出し側で db.notes / db.tags を含むトランザクションを張ること。
+// - 同じ名前のタグは既存のタグに寄せる（タグ名は一意のため、そのまま追加すると衝突する）
+// - ID が既存のタグと衝突し名前も違う場合は新しい ID を振る
+// - メモのタグ参照は寄せ先の ID に付け替え、対応のないタグ参照は外す
+export async function mergeInto(
+  data: { tags: Tag[]; notes: Note[] },
+  options: MergeOptions,
+): Promise<MergeResult> {
+  const tagIdMap = new Map<string, string>();
+  let mergedTags = 0;
+  for (const tag of data.tags) {
+    const sameName = await db.tags.where("name").equals(tag.name).first();
+    if (sameName) {
+      tagIdMap.set(tag.id, sameName.id);
+      continue;
+    }
+    const idTaken = await db.tags.get(tag.id);
+    const id = idTaken ? uuidv4() : tag.id;
+    await db.tags.add({ ...tag, id });
+    tagIdMap.set(tag.id, id);
+    mergedTags += 1;
+  }
+
+  const localContents = new Set(
+    (await db.notes.toArray()).map((n) => n.content),
+  );
+  let mergedNotes = 0;
+  for (const note of data.notes) {
+    const local = await db.notes.get(note.id);
+    if (local && options.sameId === "newer" && local.updatedAt >= note.updatedAt) {
+      continue;
+    }
+    if (!local && options.skipSameContent && note.content !== "" && localContents.has(note.content)) {
+      continue;
+    }
+    const tagIds = note.tagIds
+      .filter((id) => tagIdMap.has(id))
+      .map((id) => tagIdMap.get(id) as string);
+    await db.notes.put({ ...note, tagIds });
+    localContents.add(note.content);
+    mergedNotes += 1;
+  }
+  return { mergedNotes, mergedTags };
+}
+
 export async function importAll(
   payload: ExportPayload,
   mode: "merge" | "replace",
@@ -68,12 +127,20 @@ export async function importAll(
     if (mode === "replace") {
       await db.notes.clear();
       await db.tags.clear();
+      if (payload.tags.length > 0) await db.tags.bulkPut(payload.tags);
+      if (payload.notes.length > 0) await db.notes.bulkPut(payload.notes);
+      return {
+        importedNotes: payload.notes.length,
+        importedTags: payload.tags.length,
+      };
     }
-    if (payload.tags.length > 0) await db.tags.bulkPut(payload.tags);
-    if (payload.notes.length > 0) await db.notes.bulkPut(payload.notes);
+    const merged = await mergeInto(payload, {
+      sameId: "overwrite",
+      skipSameContent: false,
+    });
     return {
-      importedNotes: payload.notes.length,
-      importedTags: payload.tags.length,
+      importedNotes: merged.mergedNotes,
+      importedTags: merged.mergedTags,
     };
   });
 }

@@ -908,3 +908,32 @@ textarea:focus-visible,
 .sidememo-editor__status-error {
   color: var(--sm-danger);
 }
+
+/* ------------------------------------------------------------------ */
+/* 復元案内バナー（IndexedDB が作り直された場合）                       */
+/* ------------------------------------------------------------------ */
+
+.sidememo-recovery-banner {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--sm-border);
+  background-color: var(--sm-bg-muted);
+  font-size: 12px;
+}
+
+.sidememo-recovery-banner__text {
+  margin: 0;
+  color: var(--sm-fg);
+}
+
+.sidememo-recovery-banner__actions {
+  display: flex;
+  gap: 8px;
+}
+
+.sidememo-recovery-banner__error {
+  margin: 0;
+  color: var(--sm-danger);
+}
