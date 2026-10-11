@@ -1,14 +1,48 @@
-import type { Note } from "../../../types";
+import type { EditorMode, Note } from "../../../types";
 import * as notesRepo from "../../lib/db/notesRepo";
 import { captureActiveTab } from "../../lib/chrome/tabs";
 
 interface PageRefBarProps {
   note: Note;
+  mode: EditorMode;
+  onModeChange: (mode: EditorMode) => void;
+}
+
+const VIEW_MODES: Array<{ value: EditorMode; label: string }> = [
+  { value: "markdown", label: "Markdown" },
+  { value: "plain", label: "テキスト" },
+];
+
+// 表示の切り替え（Markdown: リアルタイム整形 / テキスト: 入力した文字列をそのまま表示・保存）。
+function ViewModeToggle(props: {
+  mode: EditorMode;
+  onChange: (mode: EditorMode) => void;
+}) {
+  const { mode, onChange } = props;
+  return (
+    <div className="sidememo-view-toggle" role="group" aria-label="表示形式">
+      {VIEW_MODES.map((m) => (
+        <button
+          key={m.value}
+          type="button"
+          className={
+            mode === m.value
+              ? "sidememo-view-toggle__button sidememo-view-toggle__button--active"
+              : "sidememo-view-toggle__button"
+          }
+          onClick={() => onChange(m.value)}
+          aria-pressed={mode === m.value}
+        >
+          {m.label}
+        </button>
+      ))}
+    </div>
+  );
 }
 
 // 設計書 §5.7 — 「+ ページ添付」ボタン押下時のみ取り込む。自動取り込みは行わない。
 export function PageRefBar(props: PageRefBarProps) {
-  const { note } = props;
+  const { note, mode, onModeChange } = props;
   const ref = note.pageRef;
 
   const handleAttach = async () => {
@@ -30,6 +64,8 @@ export function PageRefBar(props: PageRefBarProps) {
     }
   };
 
+  const toggle = <ViewModeToggle mode={mode} onChange={onModeChange} />;
+
   if (!ref) {
     return (
       <div className="sidememo-page-ref">
@@ -40,6 +76,8 @@ export function PageRefBar(props: PageRefBarProps) {
         >
           + ページ添付
         </button>
+        <span className="sidememo-page-ref__spacer" />
+        {toggle}
       </div>
     );
   }
@@ -72,6 +110,7 @@ export function PageRefBar(props: PageRefBarProps) {
       >
         ×
       </button>
+      {toggle}
     </div>
   );
 }

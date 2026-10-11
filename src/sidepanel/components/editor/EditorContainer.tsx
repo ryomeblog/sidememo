@@ -1,11 +1,13 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { Crepe } from "@milkdown/crepe";
 import { insert } from "@milkdown/utils";
-import type { DownloadFormat, Note, Tag } from "../../../types";
+import type { DownloadFormat, EditorMode, Note, Tag } from "../../../types";
 import * as notesRepo from "../../lib/db/notesRepo";
 import { downloadNote } from "../../lib/export/downloadNote";
 import { useDebouncedCallback } from "../../hooks/useDebouncedCallback";
 import { useSettings } from "../../hooks/useSettings";
+import * as settingsRepo from "../../lib/db/settingsRepo";
+import { joinTitle, splitTitle } from "../../lib/markdown/splitTitle";
 import { onInsertText } from "../../lib/insertionBus";
 import { MilkdownEditor } from "./MilkdownEditor";
 import { PlainTextEditor, type PlainTextEditorApi } from "./PlainTextEditor";
@@ -28,6 +30,9 @@ export function EditorContainer(props: EditorContainerProps) {
   const settings = useSettings();
   const mode = settings.editorMode;
   const [status, setStatus] = useState<SaveStatus>("idle");
+  // エディタが扱う全文。Markdown 表示ではタイトル欄と本文に分けて見せるが、保存は全文で行う。
+  const [content, setContent] = useState(note.content);
+  const contentRef = useRef(note.content);
   const [crepe, setCrepe] = useState<Crepe | null>(null);
   const crepeRef = useRef<Crepe | null>(null);
   const plainApiRef = useRef<PlainTextEditorApi | null>(null);
@@ -79,10 +84,35 @@ export function EditorContainer(props: EditorContainerProps) {
       });
   }, settings.autosaveDebounceMs);
 
-  const handleChange = (value: string) => {
-    if (editorBrokenRef.current) return;
+  // 全文の更新を一箇所に集約する（表示・保存・ref を同じ値に保つ）。
+  const updateContent = (next: string) => {
+    contentRef.current = next;
+    setContent(next);
     setStatus("saving");
-    persist(note.id, value);
+    persist(note.id, next);
+  };
+
+  // Markdown 表示の本文変更。タイトル行は保ったまま本文だけ差し替える。
+  const handleBodyChange = (body: string) => {
+    if (editorBrokenRef.current) return;
+    updateContent(joinTitle(splitTitle(contentRef.current).title, body));
+  };
+
+  // タイトル欄の変更。本文 1 行目の見出しとして書き戻す。
+  const handleTitleChange = (title: string) => {
+    if (editorBrokenRef.current) return;
+    updateContent(joinTitle(title, splitTitle(contentRef.current).body));
+  };
+
+  // テキスト表示の変更。全文をそのまま保存する。
+  const handleTextChange = (text: string) => {
+    if (editorBrokenRef.current) return;
+    updateContent(text);
+  };
+
+  const handleModeChange = (next: EditorMode) => {
+    if (next === mode) return;
+    void settingsRepo.setSetting("editorMode", next);
   };
 
   // [修正] アンマウント時に保留中の自動保存を確定させる。
@@ -128,6 +158,8 @@ export function EditorContainer(props: EditorContainerProps) {
         console.error("Download failed", e);
       });
   };
+
+  const { title, body } = splitTitle(content);
 
   return (
     <div className="sidememo-editor">
@@ -195,7 +227,18 @@ export function EditorContainer(props: EditorContainerProps) {
         </div>
       </div>
 
-      <PageRefBar note={note} />
+      <PageRefBar note={note} mode={mode} onModeChange={handleModeChange} />
+      {mode === "markdown" && (
+        <input
+          type="text"
+          className="sidememo-editor__title"
+          value={title}
+          onChange={(e) => handleTitleChange(e.target.value)}
+          placeholder="無題"
+          aria-label="タイトル"
+          spellCheck={false}
+        />
+      )}
       {mode === "markdown" && (
         <EditorToolbar crepe={crepe} visibility={settings.toolbarVisibility} />
       )}
@@ -204,8 +247,8 @@ export function EditorContainer(props: EditorContainerProps) {
         {mode === "plain" ? (
           <PlainTextEditor
             key="plain"
-            initialValue={note.content}
-            onChange={handleChange}
+            initialValue={content}
+            onChange={handleTextChange}
             onReady={(api) => {
               plainApiRef.current = api;
             }}
@@ -213,8 +256,8 @@ export function EditorContainer(props: EditorContainerProps) {
         ) : (
           <MilkdownEditor
             key="markdown"
-            initialValue={note.content}
-            onChange={handleChange}
+            initialValue={body}
+            onChange={handleBodyChange}
             onReady={setCrepe}
             onError={handleEditorError}
           />

@@ -321,8 +321,10 @@ textarea:focus-visible,
 
 .sidememo-page-ref {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 6px;
+  min-width: 0;
   padding: 6px 10px;
   border-bottom: 1px solid var(--sm-border);
   background-color: var(--sm-bg);
@@ -936,4 +938,58 @@ textarea:focus-visible,
 .sidememo-recovery-banner__error {
   margin: 0;
   color: var(--sm-danger);
+}
+
+/* ------------------------------------------------------------------ */
+/* 表示切り替え（Markdown / テキスト）・タイトル欄                      */
+/* ------------------------------------------------------------------ */
+
+.sidememo-page-ref__spacer {
+  flex: 1;
+}
+
+.sidememo-view-toggle {
+  display: inline-flex;
+  flex-shrink: 0;
+  border: 1px solid var(--sm-border);
+  border-radius: 6px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.sidememo-view-toggle__button {
+  padding: 3px 6px;
+  white-space: nowrap;
+  border: none;
+  background-color: var(--sm-bg);
+  color: var(--sm-fg-muted);
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.sidememo-view-toggle__button + .sidememo-view-toggle__button {
+  border-left: 1px solid var(--sm-border);
+}
+
+.sidememo-view-toggle__button--active {
+  background-color: var(--sm-accent-bg);
+  color: var(--sm-fg);
+  font-weight: 600;
+}
+
+.sidememo-editor__title {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 10px 16px 6px;
+  border: none;
+  border-bottom: 1px solid var(--sm-border);
+  outline: none;
+  background-color: var(--sm-bg);
+  color: var(--sm-fg);
+  font-size: 1.3em;
+  font-weight: 700;
+}
+
+.sidememo-editor__title::placeholder {
+  color: var(--sm-fg-muted);
 }
